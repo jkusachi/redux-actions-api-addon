@@ -135,23 +135,6 @@ describe('createAPIAction()', () => {
       });
     });
 
-    it('test GET by ID endpoint', () => {
-      const getItems = createAPIAction(type, 'GET', '/sample');
-      expect(getItems(9)).to.deep.equal({
-        type,
-        payload: {},
-        meta: {
-          api: true,
-          method: 'GET',
-          endpoint: '/sample/9',
-          types: [
-            type.concat('_GET_REQUEST'),
-            type.concat('_GET_SUCCESS'),
-            type.concat('_GET_FAILURE')
-          ]
-        }
-      });
-    });
 
     it('test POST Data endpoint', () => {
       const createItems = createAPIAction(type, 'POST', '/sample');
@@ -235,5 +218,27 @@ describe('createAPIAction()', () => {
         }
       });
     });
+
+    it('test Get by ID with Custom Endpoint', () => {
+      const customEndpoint = (p) => {
+        return `/tester/${p}/mctesterson`;
+      };
+      const getItems = createAPIAction(type, 'GET', customEndpoint);
+      expect(getItems(10)).to.deep.equal({
+        type,
+        payload: {},
+        meta: {
+          api: true,
+          method: 'GET',
+          endpoint: '/tester/10/mctesterson',
+          types: [
+            type.concat('_GET_REQUEST'),
+            type.concat('_GET_SUCCESS'),
+            type.concat('_GET_FAILURE')
+          ]
+        }
+      });
+    });
+
   });
 });

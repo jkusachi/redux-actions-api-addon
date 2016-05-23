@@ -12,10 +12,6 @@ function getEndpoint(method, endpoint, params) {
     return endpoint(firstParam);
   }
 
-  if (method === 'GET' && typeof firstParam === 'number') {
-    return `${endpoint}/${firstParam}`;
-  }
-
   switch (method) {
     case 'DELETE':
     case 'PUT':
