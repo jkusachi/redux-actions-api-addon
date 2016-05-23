@@ -27,7 +27,7 @@ This add on attemps to solve 2 things:
 1. Reduce boilerplate by auto dispatching Request, Success, and Failure Events
 2. Be FSA Compliant
 
-In order to be FSA Compliant, most of the information is stored in the `meta` object. 
+In order to be FSA Compliant, most of the information is stored in the `meta` object.
 
 
 # The Simple Way (`{string} endpoint`)
@@ -36,7 +36,7 @@ In order to be FSA Compliant, most of the information is stored in the `meta` ob
 
 Wraps an action creator so that its return value is the payload of a Flux Standard Action, and also creates multiple actions types that can be handled via middleware (Request, Success, and Failure Types).
 
-The parameters you pass to your action are **verb dependant** 
+The parameters you pass to your action are **verb dependant**
 
 Also adds `meta` data, such as the `method` and `endpoint` to be used where you see fit.
 
@@ -49,16 +49,16 @@ Example:
 let createContact = createAPIAction('CREATE_CONTACT', 'POST', '/contacts' );
 
 expect(createContact( {name: "James Kusachi"} )).to.deep.equal({
-  type: 'CREATE_CONTACT',
-  payload: {name: "James Kusachi"},
-  meta: {
-  	api: true,
-  	method: 'POST',
-  	endpoint: '/contacts',
-  	types: [
-  		'CREATE_CONTACT_REQUEST',
-  		'CREATE_CONTACT_SUCCESS',
-  		'CREATE_CONTACT_FAILURE',
+  "type": "CREATE_CONTACT",
+  "payload: {name": "James Kusachi"},
+  "meta": {
+  	"api": true,
+  	"method": "POST",
+  	"endpoint": "/contacts",
+  	"types": [
+  		"CREATE_CONTACT_REQUEST",
+  		"CREATE_CONTACT_SUCCESS",
+  		"CREATE_CONTACT_FAILURE",
   	]
   }
 });
@@ -70,7 +70,7 @@ redux-actions will automatically set ```action.error``` to true.
 
 The following are **Verb Based Examples** so you can see how to use your actions
 
-### GET 
+### GET
 ```js
 let getItems = createAPIAction('ITEMS', 'GET', '/items' );
 getItems()
@@ -78,25 +78,25 @@ getItems()
 ```
 there is no need to pass a payload to your action, as its a `GET` request
 
-*Auto Generated Action Types*  
-- `ITEMS_GET_REQUEST`  
-- `ITEMS_GET_SUCCESS`  
+*Auto Generated Action Types*
+- `ITEMS_GET_REQUEST`
+- `ITEMS_GET_SUCCESS`
 - `ITEMS_GET_FAILURE`
 
-**Sample**  
+**Sample**
 
 ```json
 {
-  type: 'ITEMS',
-  payload: {},
-  meta: {
-    api: true,
-    method: 'GET',
-    endpoint: '/items',
-    types: [
-      'ITEMS_GET_REQUEST',
-      'ITEMS_GET_SUCCESS',
-      'ITEMS_GET_FAILURE'
+  "type": "ITEMS",
+  "payload": {},
+  "meta": {
+    "api": true,
+    "method": "GET",
+    "endpoint": "/items",
+    "types": [
+      "ITEMS_GET_REQUEST",
+      "ITEMS_GET_SUCCESS",
+      "ITEMS_GET_FAILURE"
     ]
   }
 }
@@ -109,33 +109,33 @@ there is no need to pass a payload to your action, as its a `GET` request
 let createItem = createAPIAction('ITEMS', 'POST', '/items' );
 createItem({name: "James Kusachi"});
 ```
-In a case where you `POST` new data, you dont need to specify an id, but you do need to pass data. 
+In a case where you `POST` new data, you dont need to specify an id, but you do need to pass data.
 Any data passed as the first parameter will be treated as the payload to be sent across.
 
-*Auto Generated Action Types*  
-- `ITEMS_POST_REQUEST`  
-- `ITEMS_POST_SUCCESS`  
+*Auto Generated Action Types*
+- `ITEMS_POST_REQUEST`
+- `ITEMS_POST_SUCCESS`
 - `ITEMS_POST_FAILURE`
 
-**Sample**  
+**Sample**
 
 ```json
 {
-  type: 'ITEMS',
-  payload: {
-    name: "James Kusachi"
+  "type": "ITEMS",
+  "payload": {
+    "name": "James Kusachi"
   },
-  meta: {
-    api: true,
-    method: 'POST',
-    endpoint: '/sample',
-    types: [
-      'ITEMS_POST_REQUEST',
-      'ITEMS_POST_SUCCESS',
-      'ITEMS_POST_FAILURE'
+  "meta": {
+    "api": true,
+    "method": "POST",
+    "endpoint": "/sample",
+    "types": [
+      "ITEMS_POST_REQUEST",
+      "ITEMS_POST_SUCCESS",
+      "ITEMS_POST_FAILURE"
     ]
   }
-}      
+}
 ```
 
 
@@ -146,36 +146,36 @@ let updateItem = createAPIAction('ITEMS', 'PUT', '/items' );
 updateItem(15, {name: "Ronald McDonald"});
 
 ```
-In the event of an `UPDATE`, you generally need to specify 2 pieces  
+In the event of an `UPDATE`, you generally need to specify 2 pieces
 * id of item you are updating
 * the data you want to update with
 
 In this case, we are updating primary item `15` with a new object
 
-*Auto Generated Action Types*  
-- `ITEMS_PUT_REQUEST`  
-- `ITEMS_PUT_SUCCESS`  
+*Auto Generated Action Types*
+- `ITEMS_PUT_REQUEST`
+- `ITEMS_PUT_SUCCESS`
 - `ITEMS_PUT_FAILURE`
 
-**Sample**  
+**Sample**
 
 ```json
 {
-  type: 'ITEMS',
-  payload: { 
-    name: 'james' 
+  "type": "ITEMS",
+  "payload": {
+    "name": "james"
   },
-  meta: {
-    api: true,
-    method: 'PUT',
-    endpoint: '/sample/10',
-    types: [
-      'ITEMS_PUT_REQUEST',
-      'ITEMS_PUT_SUCCESS',
-      'ITEMS_PUT_FAILURE'
+  "meta": {
+    "api": true,
+    "method": "PUT",
+    "endpoint": "/sample/10",
+    "types": [
+      "ITEMS_PUT_REQUEST",
+      "ITEMS_PUT_SUCCESS",
+      "ITEMS_PUT_FAILURE"
     ]
   }
-}      
+}
 ```
 
 ### DELETE
@@ -187,25 +187,25 @@ updateItem(15);
 In the case of `DELETE`, you just need to specify the primary id of tha which you want to delete.
 No need to pass in any payload data, as that would get dropped anyways because of `DELETE`
 
-*Auto Generated Action Types*  
-- `ITEMS_DELETE_REQUEST`  
-- `ITEMS_DELETE_SUCCESS`  
+*Auto Generated Action Types*
+- `ITEMS_DELETE_REQUEST`
+- `ITEMS_DELETE_SUCCESS`
 - `ITEMS_DELETE_FAILURE`
 
-**Sample**  
+**Sample**
 
 ```json
 {
-  type: 'ITEMS',
-  payload: {},
-  meta: {
-    api: true,
-    method: 'DELETE',
-    endpoint: '/sample/5',
-    types: [
-      'ITEMS_DELETE_REQUEST',
-      'ITEMS_DELETE_SUCCESS',
-      'ITEMS_DELETE_FAILURE'
+  "type": "ITEMS",
+  "payload": {},
+  "meta": {
+    "api": true,
+    "method": "DELETE",
+    "endpoint": "/sample/5",
+    "types": [
+      "ITEMS_DELETE_REQUEST",
+      "ITEMS_DELETE_SUCCESS",
+      "ITEMS_DELETE_FAILURE"
     ]
   }
 }
@@ -216,13 +216,13 @@ No need to pass in any payload data, as that would get dropped anyways because o
 
 In cases where you need to customize the endpoint with more granularity, you can pass a `function` as the `endpoint` instead of a string. This gives you access to the payload so you can create dynamic endpoints based on the payload.
 
-NOTE: When using the Advanced method, you only need to send a payload across.  In the Simple version, parameter order is important (IE: for PUTs, first parameter is ID, second is payload, for POST the parameter is the payload).  
+NOTE: When using the Advanced method, you only need to send a payload across.  In the Simple version, parameter order is important (IE: for PUTs, first parameter is ID, second is payload, for POST the parameter is the payload).
 
 For the advanced version, you only need to send the payload, and your endpoint will return dynamically based on your function.
 
-examples:  
+examples:
 
-**GET Example**  
+**GET Example**
 
 ```js
 const customEndpoint = (p) => {
@@ -235,7 +235,7 @@ getItems(10); //GET /tester/10/mctesterson
 
 ```
 
-**POST Example**  
+**POST Example**
 
 ```js
 const customEndpoint = (params) => {
@@ -247,7 +247,7 @@ const payload = { id: 10, name: 'james' };
 createItem(payload); //POST /user/10/ronald/james
 ```
 
-**PUT Example**  
+**PUT Example**
 
 ```js
 const customEndpoint = (params) => {
@@ -259,7 +259,7 @@ const payload = { id: 10, name: 'james' };
 updateItem(payload); //PUT /user/10
 ```
 
-**DELETE Example**  
+**DELETE Example**
 
 ```js
 const customEndpoint = ({id, accountID}) => {
