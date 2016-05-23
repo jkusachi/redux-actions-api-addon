@@ -248,7 +248,7 @@ describe('createAPIAction()', () => {
       const payload = { id: 10, name: 'james' };
       expect(createItem(payload)).to.deep.equal({
         type,
-        payload: payload,
+        payload,
         meta: {
           api: true,
           method: 'POST',
@@ -270,7 +270,7 @@ describe('createAPIAction()', () => {
       const payload = { id: 10, name: 'james' };
       expect(updateItem(payload)).to.deep.equal({
         type,
-        payload: payload,
+        payload,
         meta: {
           api: true,
           method: 'PUT',
@@ -279,6 +279,28 @@ describe('createAPIAction()', () => {
             type.concat('_PUT_REQUEST'),
             type.concat('_PUT_SUCCESS'),
             type.concat('_PUT_FAILURE')
+          ]
+        }
+      });
+    });
+
+    it('test DELETE with Custom Endpoint', () => {
+      const customEndpoint = ({id, accountID}) => {
+        return `/user/${id}/account/${accountID}`;
+      };
+      const deleteItem = createAPIAction(type, 'DELETE', customEndpoint);
+      const payload = { id: 10, accountID: 25 };
+      expect(deleteItem(payload)).to.deep.equal({
+        type,
+        payload,
+        meta: {
+          api: true,
+          method: 'DELETE',
+          endpoint: '/user/10/account/25',
+          types: [
+            type.concat('_DELETE_REQUEST'),
+            type.concat('_DELETE_SUCCESS'),
+            type.concat('_DELETE_FAILURE')
           ]
         }
       });
