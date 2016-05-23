@@ -7,7 +7,7 @@ MOCHA_ARGS= --compilers js:babel-register \
 MOCHA_TARGET=src/**/*-test.js
 
 build:
-	$(BIN)/babel src --out-dir lib
+	$(BIN)/babel src --out-dir lib --ignore "src/__tests__/**"
 
 clean:
 	rm -rf lib
