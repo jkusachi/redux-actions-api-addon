@@ -30,6 +30,7 @@
     "mocha": "^2.2.5"
   },
   "dependencies": {
+    "object-assign": "^4.1.0",
     "reduce-reducers": "^0.1.0"
   }
 }

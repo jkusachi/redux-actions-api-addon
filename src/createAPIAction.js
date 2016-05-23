@@ -1,3 +1,4 @@
+const objectAssign = require('object-assign');
 
 /**
  * Returns the endpoint based on HTTP Verb
@@ -71,10 +72,9 @@ export default function createAPIAction(type, method, endpoint, actionCreator, m
 
     if (typeof metaCreator === 'function') {
       action.meta = metaCreator(action.payload);
-
     }
 
-    action.meta = Object.assign({}, action.meta, {
+    action.meta = objectAssign({}, action.meta, {
       api: true,
       endpoint: finalEndpoint,
       method,
