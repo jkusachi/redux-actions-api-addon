@@ -128,7 +128,7 @@ Any data passed as the first parameter will be treated as the payload to be sent
   "meta": {
     "api": true,
     "method": "POST",
-    "endpoint": "/sample",
+    "endpoint": "/items",
     "types": [
       "ITEMS_POST_REQUEST",
       "ITEMS_POST_SUCCESS",
@@ -168,7 +168,7 @@ In this case, we are updating primary item `15` with a new object
   "meta": {
     "api": true,
     "method": "PUT",
-    "endpoint": "/sample/10",
+    "endpoint": "/items/10",
     "types": [
       "ITEMS_PUT_REQUEST",
       "ITEMS_PUT_SUCCESS",
@@ -181,7 +181,7 @@ In this case, we are updating primary item `15` with a new object
 ### DELETE
 ```js
 let deleteItem = createAPIAction('ITEMS', 'DELETE', '/items' );
-updateItem(15);
+deleteItem(15);
 
 ```
 In the case of `DELETE`, you just need to specify the primary id of tha which you want to delete.
@@ -201,7 +201,7 @@ No need to pass in any payload data, as that would get dropped anyways because o
   "meta": {
     "api": true,
     "method": "DELETE",
-    "endpoint": "/sample/5",
+    "endpoint": "/items/5",
     "types": [
       "ITEMS_DELETE_REQUEST",
       "ITEMS_DELETE_SUCCESS",
