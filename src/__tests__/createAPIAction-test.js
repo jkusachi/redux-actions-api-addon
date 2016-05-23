@@ -199,9 +199,7 @@ describe('createAPIAction()', () => {
   describe('Testing Custom Endpoints', () => {
     const type = 'TYPE';
     it('test GET with Custom Endpoint', () => {
-      const customEndpoint = () => {
-        return '/tester/mctesterson';
-      };
+      const customEndpoint = () => '/tester/mctesterson';
       const getItems = createAPIAction(type, 'GET', customEndpoint);
       expect(getItems()).to.deep.equal({
         type,
@@ -220,9 +218,7 @@ describe('createAPIAction()', () => {
     });
 
     it('test Get by ID with Custom Endpoint', () => {
-      const customEndpoint = (p) => {
-        return `/tester/${p}/mctesterson`;
-      };
+      const customEndpoint = (p) => `/tester/${p}/mctesterson`;
       const getItems = createAPIAction(type, 'GET', customEndpoint);
       expect(getItems(10)).to.deep.equal({
         type,
@@ -241,9 +237,7 @@ describe('createAPIAction()', () => {
     });
 
     it('test POST with Custom Endpoint', () => {
-      const customEndpoint = (params) => {
-        return `/user/${params.id}/ronald/${params.name}`;
-      };
+      const customEndpoint = (params) => `/user/${params.id}/ronald/${params.name}`;
       const createItem = createAPIAction(type, 'POST', customEndpoint);
       const payload = { id: 10, name: 'james' };
       expect(createItem(payload)).to.deep.equal({
@@ -263,9 +257,7 @@ describe('createAPIAction()', () => {
     });
 
     it('test PUT with Custom Endpoint', () => {
-      const customEndpoint = (params) => {
-        return `/user/${params.id}`;
-      };
+      const customEndpoint = (params) => `/user/${params.id}`;
       const updateItem = createAPIAction(type, 'PUT', customEndpoint);
       const payload = { id: 10, name: 'james' };
       expect(updateItem(payload)).to.deep.equal({
@@ -285,9 +277,7 @@ describe('createAPIAction()', () => {
     });
 
     it('test DELETE with Custom Endpoint', () => {
-      const customEndpoint = ({id, accountID}) => {
-        return `/user/${id}/account/${accountID}`;
-      };
+      const customEndpoint = ({ id, accountID }) => `/user/${id}/account/${accountID}`;
       const deleteItem = createAPIAction(type, 'DELETE', customEndpoint);
       const payload = { id: 10, accountID: 25 };
       expect(deleteItem(payload)).to.deep.equal({

@@ -15,6 +15,7 @@
     "no-param-reassign": 0,
     "no-reserved-keys": 0,
     "space-infix-ops": 0,
-    "no-console": 0
+    "no-console": 0,
+    "no-unused-vars": 0
   }
 }
