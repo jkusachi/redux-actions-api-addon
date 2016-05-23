@@ -4,16 +4,22 @@
  * Contains a specific case for GET BY ID because
  * the verb is the same as a GET ALL
 **/
-function getEndpoint(method, endpoint, itemID) {
+function getEndpoint(method, endpoint, params) {
 
-  if (method === 'GET' && typeof itemID === 'number') {
-    return `${endpoint}/${itemID}`;
+  const [firstParam, ...others] = params;
+
+  if (typeof endpoint === 'function') {
+    return endpoint(firstParam);
+  }
+
+  if (method === 'GET' && typeof firstParam === 'number') {
+    return `${endpoint}/${firstParam}`;
   }
 
   switch (method) {
     case 'DELETE':
     case 'PUT':
-      return `${endpoint}/${itemID}`;
+      return `${endpoint}/${firstParam}`;
     default:
       return endpoint;
   }
@@ -36,7 +42,6 @@ function getPayload(method, itemIDorPayload, data) {
     case 'POST':
       return itemIDorPayload;
     case 'PUT':
-    console.log('got a put', itemIDorPayload, data);
       return data;
     default:
       return {};
@@ -48,7 +53,7 @@ export default function createAPIAction(type, method, endpoint, actionCreator, m
 
     const [firstParam, ...others] = params;
 
-    const finalEndpoint = getEndpoint(method, endpoint, firstParam);
+    const finalEndpoint = getEndpoint(method, endpoint, params);
 
     const action = {
       type,

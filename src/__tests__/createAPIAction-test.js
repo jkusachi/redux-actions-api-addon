@@ -212,4 +212,28 @@ describe('createAPIAction()', () => {
     });
 
   });
+
+  describe('Testing Custom Endpoints', () => {
+    const type = 'TYPE';
+    it('test GET with Custom Endpoint', () => {
+      const customEndpoint = () => {
+        return '/tester/mctesterson';
+      };
+      const getItems = createAPIAction(type, 'GET', customEndpoint);
+      expect(getItems()).to.deep.equal({
+        type,
+        payload: {},
+        meta: {
+          api: true,
+          method: 'GET',
+          endpoint: '/tester/mctesterson',
+          types: [
+            type.concat('_GET_REQUEST'),
+            type.concat('_GET_SUCCESS'),
+            type.concat('_GET_FAILURE')
+          ]
+        }
+      });
+    });
+  });
 });
