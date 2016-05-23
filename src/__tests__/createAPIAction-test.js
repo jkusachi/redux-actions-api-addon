@@ -240,5 +240,27 @@ describe('createAPIAction()', () => {
       });
     });
 
+    it('test POST with Custom Endpoint', () => {
+      const customEndpoint = (params) => {
+        return `/user/${params.id}/ronald/${params.name}`;
+      };
+      const createItem = createAPIAction(type, 'POST', customEndpoint);
+      const payload = { id: 10, name: 'james' };
+      expect(createItem(payload)).to.deep.equal({
+        type,
+        payload: payload,
+        meta: {
+          api: true,
+          method: 'POST',
+          endpoint: '/user/10/ronald/james',
+          types: [
+            type.concat('_POST_REQUEST'),
+            type.concat('_POST_SUCCESS'),
+            type.concat('_POST_FAILURE')
+          ]
+        }
+      });
+    });
+
   });
 });
