@@ -226,7 +226,7 @@ describe('createAPIAction()', () => {
       const getItems = createAPIAction(type, 'GET', customEndpoint);
       expect(getItems(10)).to.deep.equal({
         type,
-        payload: {},
+        payload: 10,
         meta: {
           api: true,
           method: 'GET',
@@ -257,6 +257,28 @@ describe('createAPIAction()', () => {
             type.concat('_POST_REQUEST'),
             type.concat('_POST_SUCCESS'),
             type.concat('_POST_FAILURE')
+          ]
+        }
+      });
+    });
+
+    it('test PUT with Custom Endpoint', () => {
+      const customEndpoint = (params) => {
+        return `/user/${params.id}`;
+      };
+      const updateItem = createAPIAction(type, 'PUT', customEndpoint);
+      const payload = { id: 10, name: 'james' };
+      expect(updateItem(payload)).to.deep.equal({
+        type,
+        payload: payload,
+        meta: {
+          api: true,
+          method: 'PUT',
+          endpoint: '/user/10',
+          types: [
+            type.concat('_PUT_REQUEST'),
+            type.concat('_PUT_SUCCESS'),
+            type.concat('_PUT_FAILURE')
           ]
         }
       });

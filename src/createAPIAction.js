@@ -29,12 +29,16 @@ function getEndpoint(method, endpoint, params) {
  *
  * In an error case, we just return the error.
 **/
-function getPayload(method, params) {
+function getPayload(method, endpoint, params) {
 
   const [firstParam, ...others] = params;
 
   if (firstParam instanceof Error) {
     return firstParam;
+  }
+
+  if (typeof endpoint === 'function') {
+    return firstParam || {};
   }
 
   switch (method) {
@@ -56,7 +60,7 @@ export default function createAPIAction(type, method, endpoint, actionCreator, m
 
     const action = {
       type,
-      payload: getPayload(method, params)
+      payload: getPayload(method, endpoint, params)
     };
 
     if (action.payload instanceof Error) {
