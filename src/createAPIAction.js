@@ -36,6 +36,7 @@ function getPayload(method, itemIDorPayload, data) {
     case 'POST':
       return itemIDorPayload;
     case 'PUT':
+    console.log('got a put', itemIDorPayload, data);
       return data;
     default:
       return {};
@@ -43,19 +44,21 @@ function getPayload(method, itemIDorPayload, data) {
 }
 
 export default function createAPIAction(type, method, endpoint, actionCreator, metaCreator) {
-  return (param1, ...params) => {
+  return (...params) => {
 
-    const finalEndpoint = getEndpoint(method, endpoint, param1);
+    const [firstParam, ...others] = params;
+
+    const finalEndpoint = getEndpoint(method, endpoint, firstParam);
 
     const action = {
       type,
-      payload: getPayload(method, param1, ...params)
+      payload: getPayload(method, firstParam, ...others)
     };
 
     if (action.payload instanceof Error) {
       // Handle FSA errors where the payload is an Error object. Set error.
       action.error = true;
-      action.payload = param1;
+      action.payload = firstParam;
     }
 
     if (typeof metaCreator === 'function') {
