@@ -4,7 +4,7 @@ redux-actions-api-addon
 API Addon for [Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux.
 
 ```js
-npm install --save redux-actions
+npm install --save redux-actions-api-addon
 ```
 ```js
 import { createAPIAction } from 'redux-actions-api-addon';
