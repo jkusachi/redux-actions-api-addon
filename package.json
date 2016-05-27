@@ -1,6 +1,6 @@
 {
   "name": "redux-actions-api-addon",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Redux Actions add-on to support API Requests.",
   "main": "lib/index.js",
   "scripts": {
@@ -28,6 +28,10 @@
     "lodash.isplainobject": "^3.2.0",
     "flux-standard-action": "^0.6.0",
     "mocha": "^2.2.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkusachi/redux-actions-api-addon.git"
   },
   "dependencies": {
     "object-assign": "^4.1.0"
