@@ -10,7 +10,7 @@ function getEndpoint(method, endpoint, params) {
   const [firstParam, ...others] = params;
 
   if (typeof endpoint === 'function') {
-    return endpoint(firstParam);
+    return endpoint(...params);
   }
 
   switch (method) {

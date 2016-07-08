@@ -236,6 +236,25 @@ describe('createAPIAction()', () => {
       });
     });
 
+    it('test Get with Multiple Custom Endpoint Arguments', () => {
+      const customEndpoint = (city, state) => `/city/${city}/state/${state}`;
+      const getItems = createAPIAction(type, 'GET', customEndpoint);
+      expect(getItems('newport-beach', 'ca')).to.deep.equal({
+        type,
+        payload: 'newport-beach',
+        meta: {
+          api: true,
+          method: 'GET',
+          endpoint: '/city/newport-beach/state/ca',
+          types: [
+            type.concat('_GET_REQUEST'),
+            type.concat('_GET_SUCCESS'),
+            type.concat('_GET_FAILURE')
+          ]
+        }
+      });
+    });
+
     it('test POST with Custom Endpoint', () => {
       const customEndpoint = (params) => `/user/${params.id}/ronald/${params.name}`;
       const createItem = createAPIAction(type, 'POST', customEndpoint);
