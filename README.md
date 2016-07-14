@@ -50,7 +50,7 @@ let createContact = createAPIAction('CREATE_CONTACT', 'POST', '/contacts' );
 
 expect(createContact( {name: "James Kusachi"} )).to.deep.equal({
   "type": "CREATE_CONTACT",
-  "payload: {name": "James Kusachi"},
+  "payload": {name": "James Kusachi"},
   "meta": {
   	"api": true,
   	"method": "POST",
