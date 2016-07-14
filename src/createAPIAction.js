@@ -30,29 +30,31 @@ function getEndpoint(method, endpoint, params) {
  *
  * In an error case, we just return the error.
 **/
-function getPayload(method, endpoint, params) {
-
+function getPayload(method, endpoint, payloadCreator, params) {
   const [firstParam, ...others] = params;
 
   if (firstParam instanceof Error) {
     return firstParam;
   }
 
-  if (typeof endpoint === 'function') {
-    return firstParam || {};
+  if (typeof payloadCreator === 'function') {
+    return payloadCreator(...params) || {};
   }
 
   switch (method) {
     case 'POST':
       return firstParam;
     case 'PUT':
+      if (typeof endpoint === 'function') {
+        return params[0];
+      }
       return others[0];
     default:
       return {};
   }
 }
 
-export default function createAPIAction(type, method, endpoint, actionCreator, metaCreator) {
+export default function createAPIAction(type, method, endpoint, payloadCreator, metaCreator) {
   return (...params) => {
 
     const [firstParam, ...others] = params;
@@ -61,7 +63,7 @@ export default function createAPIAction(type, method, endpoint, actionCreator, m
 
     const action = {
       type,
-      payload: getPayload(method, endpoint, params)
+      payload: getPayload(method, endpoint, payloadCreator, params)
     };
 
     if (action.payload instanceof Error) {

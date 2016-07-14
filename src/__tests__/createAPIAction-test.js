@@ -30,6 +30,28 @@ describe('createAPIAction()', () => {
       });
     });
 
+    it('Can use Custom Paylod Creator to modify payload data', () => {
+
+      const payloadCreator = (city, state) => (
+        {
+          data: {
+            city,
+            state
+          }
+        }
+      );
+
+      const actionCreator = createAPIAction(type, 'POST', '/sample', payloadCreator);
+      const action = actionCreator('irvine', 'CA');
+
+      expect(action.payload).to.deep.equal({
+        data: {
+          city: 'irvine',
+          state: 'CA'
+        }
+      });
+    });
+
     it('uses identity function if actionCreator is not a function', () => {
       const actionCreator = createAPIAction(type, 'POST', '/sample');
       const foobar = { foo: 'bar' };
@@ -222,7 +244,7 @@ describe('createAPIAction()', () => {
       const getItems = createAPIAction(type, 'GET', customEndpoint);
       expect(getItems(10)).to.deep.equal({
         type,
-        payload: 10,
+        payload: {},
         meta: {
           api: true,
           method: 'GET',
@@ -241,7 +263,7 @@ describe('createAPIAction()', () => {
       const getItems = createAPIAction(type, 'GET', customEndpoint);
       expect(getItems('newport-beach', 'ca')).to.deep.equal({
         type,
-        payload: 'newport-beach',
+        payload: {},
         meta: {
           api: true,
           method: 'GET',
@@ -301,7 +323,7 @@ describe('createAPIAction()', () => {
       const payload = { id: 10, accountID: 25 };
       expect(deleteItem(payload)).to.deep.equal({
         type,
-        payload,
+        payload: {},
         meta: {
           api: true,
           method: 'DELETE',
@@ -310,6 +332,39 @@ describe('createAPIAction()', () => {
             type.concat('_DELETE_REQUEST'),
             type.concat('_DELETE_SUCCESS'),
             type.concat('_DELETE_FAILURE')
+          ]
+        }
+      });
+    });
+
+    it('test Custom Payload Creator with Custom Endpoint', () => {
+      const customEndpoint = (city, state) => `/cities/${city}/state/${state}`;
+      const customPayloadCreator = (city, state) => (
+        {
+          places: {
+            city,
+            state
+          }
+        }
+      );
+      const actionCreator = createAPIAction(type, 'POST', customEndpoint, customPayloadCreator);
+      const payload = actionCreator('irvine', 'ca');
+      expect(payload).to.deep.equal({
+        type,
+        payload: {
+          places: {
+            city: 'irvine',
+            state: 'ca'
+          }
+        },
+        meta: {
+          api: true,
+          method: 'POST',
+          endpoint: '/cities/irvine/state/ca',
+          types: [
+            type.concat('_POST_REQUEST'),
+            type.concat('_POST_SUCCESS'),
+            type.concat('_POST_FAILURE')
           ]
         }
       });
