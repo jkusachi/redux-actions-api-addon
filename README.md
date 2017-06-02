@@ -10,6 +10,17 @@ npm install --save redux-actions-api-addon
 import { createAPIAction } from 'redux-actions-api-addon';
 ```
 
+
+## Quick Links
+
+* [Custom Paylod Creator Example](#custom-payload-creator-example)
+* [Custom Meta Creator Example](#custom-meta-creator-example)
+
+
+
+
+
+
 ### The Problem?
 
 When creating redux actions for API Requests, in reality there are 3 actions that are spawned
@@ -50,7 +61,7 @@ let createContact = createAPIAction('CREATE_CONTACT', 'POST', '/contacts' );
 
 expect(createContact( {name: "James Kusachi"} )).to.deep.equal({
   "type": "CREATE_CONTACT",
-  "payload": {name": "James Kusachi"},
+  "payload": { "name": "James Kusachi" },
   "meta": {
   	"api": true,
   	"method": "POST",
@@ -222,7 +233,7 @@ For the advanced version, you only need to send the payload, and your endpoint w
 
 examples:
 
-**GET Example**
+#### GET Example
 
 ```js
 const customEndpoint = (p) => {
@@ -235,7 +246,7 @@ getItems(10); //GET /tester/10/mctesterson
 
 ```
 
-**POST Example**
+#### POST Example
 
 ```js
 const customEndpoint = (params) => {
@@ -247,7 +258,7 @@ const payload = { id: 10, name: 'james' };
 createItem(payload); //POST /user/10/ronald/james
 ```
 
-**PUT Example**
+#### PUT Example
 
 ```js
 const customEndpoint = (params) => {
@@ -259,7 +270,7 @@ const payload = { id: 10, name: 'james' };
 updateItem(payload); //PUT /user/10
 ```
 
-**DELETE Example**
+#### DELETE Example
 
 ```js
 const customEndpoint = ({id, accountID}) => {
@@ -271,4 +282,82 @@ const payload = { id: 10, accountID: 25 };
 deleteItem(payload); //DELETE /user/10/account/25
 ```
 
+#### Custom Paylod Creator Example
 
+[View Example](./examples/payload-creator.js)
+
+
+```js
+const type = 'CONTACT';
+const actionCreator = createAPIAction(
+  type,
+  'GET',
+  () => '/contacts',
+  (arg1, arg2) => ({
+      name: 'Ronald McDonald',
+      details: arg1,
+      deep: {
+          key: arg2,
+      }
+  })
+);
+
+action();
+```
+
+_Result_
+
+```
+{
+  "type": "CONTACT",
+  "payload": {
+    "name": "Ronald McDonald",
+    "deep": {}
+  },
+  "meta": {
+    "api": true,
+    "endpoint": "/contacts",
+    "method": "GET",
+    "types": ["CONTACT_GET_REQUEST", "CONTACT_GET_SUCCESS", "CONTACT_GET_FAILURE"]
+  }
+}
+```
+
+
+#### Custom Meta Creator Example
+
+[View Example](./examples/meta-creator.js)
+
+
+```js
+const type = 'CONTACT';
+const action = createAPIAction(
+  type,
+  'GET',
+  () => '/contacts',
+  null,
+  () => ({
+    extra: 'value',
+    another: 'value',
+  })
+);
+
+action();
+```
+
+_Result_
+
+```
+{
+  "type": "CONTACT",
+  "payload": {},
+  "meta": {
+    "extra": "value",
+    "another": "value",
+    "api": true,
+    "endpoint": "/contacts",
+    "method": "GET",
+    "types": ["CONTACT_GET_REQUEST", "CONTACT_GET_SUCCESS", "CONTACT_GET_FAILURE"]
+  }
+}
+```
