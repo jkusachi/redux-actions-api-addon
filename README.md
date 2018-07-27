@@ -3,7 +3,7 @@ redux-actions-api-addon
 
 API Addon for [Flux Standard Action](https://github.com/acdlite/flux-standard-action) utilities for Redux.
 
-```js
+```sh
 npm install --save redux-actions-api-addon
 ```
 ```js
@@ -13,7 +13,7 @@ import { createAPIAction } from 'redux-actions-api-addon';
 
 ## Quick Links
 
-* [Custom Paylod Creator Example](#custom-payload-creator-example)
+* [Custom Payload Creator Example](#custom-payload-creator-example)
 * [Custom Meta Creator Example](#custom-meta-creator-example)
 
 
@@ -31,19 +31,19 @@ When creating redux actions for API Requests, in reality there are 3 actions tha
 
 This can lead to a _lot_ of boilerplate.
 
-Now, there are some packages out there to handle this ex: [https://github.com/agraboso/redux-api-middleware](https://github.com/agraboso/redux-api-middleware) However, these packages aren't FSA Compliant [https://github.com/acdlite/flux-standard-action](https://github.com/acdlite/flux-standard-action)
+Now, there are [some packages out there](https://github.com/agraboso/redux-api-middleware) to handle this, however, these packages aren't [FSA Compliant](https://github.com/acdlite/flux-standard-action).
 
-This add on attemps to solve 2 things:
+This add-on attemps to solve 2 things:
 
-1. Reduce boilerplate by auto dispatching Request, Success, and Failure Events
-2. Be FSA Compliant
+1. Reduce boilerplate by auto dispatching Request, Success, and Failure Events.
+2. Be FSA Compliant.
 
 In order to be FSA Compliant, most of the information is stored in the `meta` object.
 
 
-# The Simple Way (`{string} endpoint`)
+## The Simple Way (`{string}` endpoint)
 
-### `createAPIAction(type, method, endpoint, payloadCreator = Identity, ?metaCreator)`
+#### `createAPIAction(type, method, endpoint, payloadCreator = Identity, ?metaCreator)`
 
 Wraps an action creator so that its return value is the payload of a Flux Standard Action, and also creates multiple actions types that can be handled via middleware (Request, Success, and Failure Types).
 
@@ -77,11 +77,11 @@ expect(createContact( {name: "James Kusachi"} )).to.deep.equal({
 
 If the payload is an instance of an [Error
 object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error),
-redux-actions will automatically set ```action.error``` to true.
+redux-actions will automatically set `action.error` to true.
 
 The following are **Verb Based Examples** so you can see how to use your actions
 
-### GET
+##### `GET`
 ```js
 let getItems = createAPIAction('ITEMS', 'GET', '/items' );
 getItems()
@@ -114,7 +114,7 @@ there is no need to pass a payload to your action, as its a `GET` request
 ```
 
 
-### POST
+##### `POST`
 
 ```js
 let createItem = createAPIAction('ITEMS', 'POST', '/items' );
@@ -150,7 +150,7 @@ Any data passed as the first parameter will be treated as the payload to be sent
 ```
 
 
-### PUT
+##### `PUT`
 
 ```js
 let updateItem = createAPIAction('ITEMS', 'PUT', '/items' );
@@ -189,7 +189,7 @@ In this case, we are updating primary item `15` with a new object
 }
 ```
 
-### DELETE
+##### `DELETE`
 ```js
 let deleteItem = createAPIAction('ITEMS', 'DELETE', '/items' );
 deleteItem(15);
@@ -223,17 +223,17 @@ No need to pass in any payload data, as that would get dropped anyways because o
 ```
 
 
-# Advanced (`{function} endpoint`)
+## Advanced (`{function}` endpoint)
 
 In cases where you need to customize the endpoint with more granularity, you can pass a `function` as the `endpoint` instead of a string. This gives you access to the payload so you can create dynamic endpoints based on the payload.
 
-NOTE: When using the Advanced method, you only need to send a payload across.  In the Simple version, parameter order is important (IE: for PUTs, first parameter is ID, second is payload, for POST the parameter is the payload).
+NOTE: When using the Advanced method, you only need to send a payload across.  In the Simple version, parameter order is important (IE: for `PUT`s, first parameter is ID, second is payload, for `POST` the parameter is the payload).
 
 For the advanced version, you only need to send the payload, and your endpoint will return dynamically based on your function.
 
 examples:
 
-#### GET Example
+##### `GET` Example
 
 ```js
 const customEndpoint = (p) => {
@@ -246,7 +246,7 @@ getItems(10); //GET /tester/10/mctesterson
 
 ```
 
-#### POST Example
+##### `POST` Example
 
 ```js
 const customEndpoint = (params) => {
@@ -258,7 +258,7 @@ const payload = { id: 10, name: 'james' };
 createItem(payload); //POST /user/10/ronald/james
 ```
 
-#### PUT Example
+##### `PUT` Example
 
 ```js
 const customEndpoint = (params) => {
@@ -270,7 +270,7 @@ const payload = { id: 10, name: 'james' };
 updateItem(payload); //PUT /user/10
 ```
 
-#### DELETE Example
+##### `DELETE` Example
 
 ```js
 const customEndpoint = ({id, accountID}) => {
@@ -282,7 +282,7 @@ const payload = { id: 10, accountID: 25 };
 deleteItem(payload); //DELETE /user/10/account/25
 ```
 
-#### Custom Paylod Creator Example
+#### Custom Payload Creator Example
 
 [View Example](./examples/payload-creator.js)
 
@@ -307,7 +307,7 @@ action();
 
 _Result_
 
-```
+```json
 {
   "type": "CONTACT",
   "payload": {
@@ -347,7 +347,7 @@ action();
 
 _Result_
 
-```
+```json
 {
   "type": "CONTACT",
   "payload": {},
