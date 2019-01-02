@@ -8,6 +8,7 @@
     "expect": true
   },
   "rules": {
+    "quotes": [0, "double"],
     "comma-dangle": [2, "never"],
     "padded-blocks": 0,
     "no-use-before-define": [2, "nofunc"],

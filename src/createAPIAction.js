@@ -1,21 +1,20 @@
-const objectAssign = require('object-assign');
+const objectAssign = require("object-assign");
 
 /**
  * Returns the endpoint based on HTTP Verb
  * Contains a specific case for GET BY ID because
  * the verb is the same as a GET ALL
-**/
+ **/
 function getEndpoint(method, endpoint, params) {
-
   const [firstParam, ...others] = params;
 
-  if (typeof endpoint === 'function') {
+  if (typeof endpoint === "function") {
     return endpoint(...params);
   }
 
   switch (method) {
-    case 'DELETE':
-    case 'PUT':
+    case "DELETE":
+    case "PUT":
       return `${endpoint}/${firstParam}`;
     default:
       return endpoint;
@@ -29,7 +28,7 @@ function getEndpoint(method, endpoint, params) {
  * We need to check and return accordingly.
  *
  * In an error case, we just return the error.
-**/
+ **/
 function getPayload(method, endpoint, payloadCreator, params) {
   const [firstParam, ...others] = params;
 
@@ -37,15 +36,15 @@ function getPayload(method, endpoint, payloadCreator, params) {
     return firstParam;
   }
 
-  if (typeof payloadCreator === 'function') {
+  if (typeof payloadCreator === "function") {
     return payloadCreator(...params) || {};
   }
 
   switch (method) {
-    case 'POST':
+    case "POST":
       return firstParam;
-    case 'PUT':
-      if (typeof endpoint === 'function') {
+    case "PUT":
+      if (typeof endpoint === "function") {
         return params[0];
       }
       return others[0];
@@ -54,9 +53,14 @@ function getPayload(method, endpoint, payloadCreator, params) {
   }
 }
 
-export default function createAPIAction(type, method, endpoint, payloadCreator, metaCreator) {
+export default function createAPIAction(
+  type,
+  method,
+  endpoint,
+  payloadCreator,
+  metaCreator
+) {
   return (...params) => {
-
     const [firstParam, ...others] = params;
 
     const finalEndpoint = getEndpoint(method, endpoint, params);
@@ -72,8 +76,8 @@ export default function createAPIAction(type, method, endpoint, payloadCreator, 
       action.payload = firstParam;
     }
 
-    if (typeof metaCreator === 'function') {
-      action.meta = metaCreator(action.payload);
+    if (typeof metaCreator === "function") {
+      action.meta = metaCreator(...params);
     }
 
     action.meta = objectAssign({}, action.meta, {
