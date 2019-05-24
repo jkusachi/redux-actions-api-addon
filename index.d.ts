@@ -1,6 +1,6 @@
 export as namespace ReduxActionsAPIAddon;
 
-type Method = "GET" | "POST" | "PUT" | "DELETE";
+type Method = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 type returnType = string | number | object;
 
